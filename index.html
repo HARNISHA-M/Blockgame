@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Block Game</title>
+    <link href="index.css" rel="stylesheet" />
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>
+        <span class="blockClr">Block</span>
+        <span>Game</span>
+      </h1>
+      <div>
+        <span id="scoreLabel">Score:</span>
+        <span class="score"></span>
+        <span>Timer:</span>
+        <span class="timer"></span>
+      </div>
+    </header>
+    <div class="main-Wrapper">
+      <div class="main" id="random" onclick="onClicked()"></div>
+    </div>
+
+    <div>
+      <button onclick="startGame()">Start Game</button>
+    </div>
+
+    <script>
+      let score = 0
+      let timer = 60
+      let box = document.querySelector('.main-Wrapper')
+      let width = box.offsetWidth
+      let height = box.offsetHeight
+      console.log({ width, height })
+
+      let position
+      let time
+
+      document.getElementById('random').style = 'pointer-events:none'
+
+      function startGame() {
+        document.getElementById('scoreLabel').innerHTML = 'Score : '
+        position = setInterval(changePosition, 2000)
+        time = setInterval(setTimer, 1000)
+        document.getElementById('random').style = 'pointer-events:auto'
+      }
+
+      function changePosition() {
+        console.log('hi')
+        let randomTop = getRandomNumber(height - 60)
+        let randomRight = getRandomNumber(width - 90)
+
+        document.getElementById('random').style.top = randomTop + 'px'
+        document.getElementById('random').style.left = randomRight + 'px'
+      }
+
+      function getRandomNumber(max) {
+        return Math.random() * max
+      }
+
+      function onClicked() {
+        score++
+        document.getElementsByClassName('score')[0].innerHTML = score
+      }
+
+      function setTimer() {
+        timer--
+        document.getElementsByClassName('timer')[0].innerHTML = timer
+        if (timer == 0) {
+          document.getElementById('scoreLabel').innerHTML =
+            'Your final score is : '
+          clearInterval(position)
+          clearInterval(time)
+          document.getElementById('random').style = 'pointer-events:none'
+          timer = 60;
+          score = 0;
+          document.getElementsByClassName('timer')[0].innerHTML = 0
+        }
+      }
+    </script>
+  </body>
+</html>
